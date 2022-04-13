@@ -4,7 +4,8 @@ export const Card = ({ userData, setUserData }) => {
       {userData &&
         userData.map((user) => (
           <li key={user}>
-            {user.name} ({user.age} years old)
+            {user.name} is {user.age} years old and studying in college{" "}
+            {user.college}
           </li>
         ))}
     </div>

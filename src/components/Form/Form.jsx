@@ -1,30 +1,36 @@
-import { useState } from "react";
+import { useRef } from "react";
 
 export const Form = ({ setUserData }) => {
-  const [userInfo, setUserInfo] = useState({ name: "", age: "" });
-  const { name, age } = userInfo;
+  const userName = useRef();
+  const userAge = useRef();
+  const userCollege = useRef();
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const enteredName = userName.current.value;
+    const enteredAge = userAge.current.value;
+    const enteredCollege = userCollege.current.value;
 
-    if (userInfo.name === "" || userInfo.age === "") {
+    if (enteredName === "" || enteredAge === "" || enteredCollege === "") {
       alert("Enter valid username and age");
       return;
     }
-    if (userInfo.age <= 0) {
+    if (enteredAge <= 0) {
       alert("Age must be >0 ");
-      setUserInfo((prevInfo) => {
-        return { ...prevInfo, age: "" };
-      });
+      userAge.current.value = "";
       return;
     }
     setUserData((prevData) => {
-      return [...prevData, userInfo];
+      return [
+        ...prevData,
+        { name: enteredName, age: enteredAge, college: enteredCollege },
+      ];
     });
-    setUserInfo({ name: "", age: "" });
+    userName.current.value = "";
+    userAge.current.value = "";
+    userCollege.current.value = "";
   };
-  const onChangeHandler = (e) => {
-    setUserInfo({ ...userInfo, [e.target.id]: e.target.value });
-  };
+
   return (
     <form className="my-16" onSubmit={handleSubmit}>
       <label htmlFor="username" className="mx-16">
@@ -33,8 +39,7 @@ export const Form = ({ setUserData }) => {
           type="text"
           id="name"
           class="input-md input-round"
-          value={name}
-          onChange={onChangeHandler}
+          ref={userName}
         />
       </label>
       <label htmlFor="age">
@@ -43,8 +48,16 @@ export const Form = ({ setUserData }) => {
           type="number"
           id="age"
           class="input-md input-round"
-          value={age}
-          onChange={onChangeHandler}
+          ref={userAge}
+        />
+      </label>
+      <label htmlFor="college">
+        College:
+        <input
+          type="text"
+          id="college"
+          class="input-md input-round"
+          ref={userCollege}
         />
       </label>
       <button className="btn primary-btn width-fit-content" type="submit">

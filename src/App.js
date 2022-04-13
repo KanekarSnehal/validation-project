@@ -5,7 +5,7 @@ import { Form } from "./components/Form/Form";
 
 function App() {
   const [userData, setUserData] = useState([]);
-  console.log(userData);
+
   return (
     <div className="App text-center">
       <Form userData={userData} setUserData={setUserData} />
